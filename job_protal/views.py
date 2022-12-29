@@ -114,10 +114,10 @@ class OrderApiViewSet(ModelViewSet):
     def get_orders(self, request):
         try:
             if request.user.user_type == UserTypeChoices.VENDOR:
-                orders = request.user.receiver_orders.all()
+                orders = self.model.objects.filter(receiver_id = request.user.id)
 
             if request.user.user_type == UserTypeChoices.CLIENT:
-                orders = request.user.sender_orders.all()
+                orders = self.model.objects.filter(sender_id = request.user.id)
 
             if orders.exists():
                 serialized_data = GetOrderSerializer(orders,many=True).data

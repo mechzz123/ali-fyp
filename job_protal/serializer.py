@@ -25,26 +25,13 @@ class OrderSerializer(ModelSerializer):
         model = Order
         fields = '__all__'
 
-
-
-class GetOrderSerializer(ModelSerializer):
-    job_name = serializers.SerializerMethodField("job_name")
-    job_fair = serializers.SerializerMethodField("job_fair")
-
-    def job_name(self,obj):
-        try:
-            return obj.job.job_name
-
-        except:
-            return None
-
-    def job_fair(self,obj):
-        try:
-            return obj.job.job_fair
-
-        except:
-            return None
-
-    class Meta:
-        model = Order
-        fields = ['order_status','order_location','order_contact','sender','receiver','location_coordinates','job','job_name','job_fair']
+    def to_representation(self, instance):
+        data = {
+            "id" : instance.id,
+            "order_status" : instance.order_status,
+            "order_location" : instance.order_location,
+            "order_contact" : instance.order_contact,
+            "job_name" : instance.job.job_name,
+            "job_fair" : instance.job_fair,
+            "job_id" : instance.job.id
+        }

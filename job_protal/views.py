@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from common.enums import Message
 from .models import Job , JobCatagories , Order
 from .serializer import (
-    JobCatagorySerializer, JobSerializer , OrderSerializer )
+    JobCatagorySerializer, JobSerializer , OrderSerializer , GetOrderSerializer )
 from user.models import UserTypeChoices
 
 
@@ -120,7 +120,7 @@ class OrderApiViewSet(ModelViewSet):
                 orders = request.user.sender_orders.all()
 
             if orders.exists():
-                serialized_data = self.serializer_class(orders,many=True).data
+                serialized_data = GetOrderSerializer(orders,many=True).data
                 return Response(create_resonse(False,Message.success.value,serialized_data))
             return Response(create_resonse(False,Message.record_not_found.value,[]))
         except Exception as e:

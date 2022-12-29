@@ -39,6 +39,6 @@ class Order(LogsMixin):
     sender = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True , related_name = "sender_orders")
     receiver = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True , related_name = "receiver_orders")
     location_coordinates = jsonfield.JSONField()
-
+    job = models.ForeignKey(Job, on_delete=models.CASCADE, null=True, blank=True, related_name="job_order")
     def __str__(self):
         return self.title

@@ -31,10 +31,14 @@ urlpatterns = [
         "get": "get_catagories",
         "post": "create_catagories"
     })),
+
     path("order", OrderApiViewSet.as_view({
         "get": "get_orders",
         "post": "create_order",
         "patch" : "update_order"
     })),
+    path("vendor-jobs",JobApiViewSet.as_view({
+        "get":"get_vendor_jobs"
+    }))
 
 ]

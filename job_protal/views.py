@@ -92,6 +92,18 @@ class JobApiViewSet(ModelViewSet):
             return Response(create_resonse(True, Message.server_error.value, data=[]))
 
 
+    def get_vendor_jobs(self,request):
+        try:
+            if request.user.user_type == UserTypeChoices.VENDOR:
+                jobs = self.model.objects.filter(user_id = request.user.id)
+                if jobs.exists():
+                    serialized_data = self.serializer_class(jobs,many=True).data
+                    return Response(create_resonse(False,Message.success.value,serialized_data))
+                return Response(create_resonse(False,Message.record_not_found.value,[]))
+        except Exception as e:
+            print(e)
+            return Response(create_resonse(True,Message.server_error.value,[]))
+
 
 class OrderApiViewSet(ModelViewSet):
     authentication_classes = [UserAuthentication]

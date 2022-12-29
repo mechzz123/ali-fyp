@@ -54,10 +54,17 @@ class UserAuthView(ModelViewSet):
             return Response(create_resonse(True, Message.server_error.value, data=[]))
 
 
-    def get_dashboard(self,request):
-        try:
-            return Response(create_resonse(False, Message.success.value, data=[]))
 
+
+class UserProfileApiViewSet(ModelViewSet):
+    authentication_classes = [UserAuthentication]
+    model = User
+    serializer_class = UserSignupSerializer
+
+    def get_profile(self,request):
+        try:
+            serialized_data = self.serializer_class(request.user,many=False).data
+            return Response(create_resonse(False,Message.success.value,[serialized_data]))
         except Exception as e:
             print(e)
-            return Response(create_resonse(True, Message.server_error.value, data=[]))
+            return Response(create_resonse(True,Message.server_error.value,[]))

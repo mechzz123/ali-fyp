@@ -16,7 +16,7 @@ Including another URLconf
 
 from django.urls import path
 from .views import (
-    UserAuthView )
+    UserAuthView , UserProfileApiViewSet)
 
 urlpatterns = [
     path('login', UserAuthView.as_view({
@@ -28,5 +28,8 @@ urlpatterns = [
          ),
     path('dashboard', UserAuthView.as_view({
         "get":"get_dashboard"}),
+         ),
+    path('profile', UserProfileApiViewSet.as_view({
+        "get": "get_profile"}),
          ),
 ]

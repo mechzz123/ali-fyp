@@ -15,6 +15,8 @@ class User(AbstractUser):
     login_token = models.TextField(null=True, blank=True)
     address = models.CharField(max_length=10000, null=True, blank=True)
     contact = models.CharField(max_length=10000, null=True, blank=True)
+    bio = models.CharField(max_length=10000, null=True, blank=True)
+
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

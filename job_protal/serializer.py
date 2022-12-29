@@ -35,3 +35,5 @@ class OrderSerializer(ModelSerializer):
             "job_fair" : instance.job_fair,
             "job_id" : instance.job.id
         }
+
+        return data

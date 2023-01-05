@@ -20,7 +20,9 @@ from .views import JobCatagoriesApiViewSet , JobApiViewSet  , OrderApiViewSet
 urlpatterns = [
     path("",JobApiViewSet.as_view({
         "get" : "get_jobs",
-        "post" : "create_jobs"
+        "post" : "create_jobs",
+        "patch" : "edit_jobs",
+        "delete" : "delete_jobs"
     })),
 
     path("get-single-job", JobApiViewSet.as_view({

@@ -91,6 +91,36 @@ class JobApiViewSet(ModelViewSet):
             print(e)
             return Response(create_resonse(True, Message.server_error.value, data=[]))
 
+    def edit_jobs(self, request):
+        try:
+            job_queryset = self.model.objects.filter(id = request.data.get("id"))
+            if job_queryset.exists():
+                request.data['user'] = request.user.id
+                serialized_data = self.serializer_class(job_queryset.last(),data=request.data)
+                if serialized_data.is_valid():
+                    serialized_data.save()
+                    return Response(create_resonse(False, Message.success.value, [serialized_data.data]))
+                return Response(create_resonse(True, Message.try_with_correct_data.value, data=[]))
+            return Response(create_resonse(True, Message.record_not_found.value, data=[]))
+
+        except Exception as e:
+            print(e)
+            return Response(create_resonse(True, Message.server_error.value, data=[]))
+
+
+    def delete_jobs(self, request):
+        try:
+            if not request.query_params.get("id"):
+                return Response(create_resonse(True,Message.success.value,[]))
+            Jobs = self.model.objects.filter(id = request.query_params.get("id"))
+            if Jobs.exists():
+                Jobs.delete()
+                return Response(create_resonse(False,Message.success.value,[]))
+            return Response(create_resonse(False,Message.record_not_found.value,[]))
+        except Exception as e:
+            print(e)
+            return Response(create_resonse(True, Message.server_error.value, data=[]))
+
 
     def get_vendor_jobs(self,request):
         try:
